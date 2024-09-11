@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [ "localhost", 
                  "127.0.0.1", 
                  "http://yudayana-arif-mentalhealthtracker.pbp.cs.ui.ac.id",
-                 "https://yudayana.arif:mOiQEz_IagrqNg55SEL0FjhE-Jl8olh3@pbp.cs.ui.ac.id/yudayana.arif/mental-health-tracker"]
+                 "https://yudayana-arif-mentalhealthtracker.pbp.cs.ui.ac.id"]
 
 
 # Application definition
