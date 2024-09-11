@@ -1,6 +1,13 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.core import serializers
 from main.forms import MoodEntryForm
 from main.models import MoodEntry
+
+def show_xml(request):
+    data = MoodEntry.objects.all()
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+
 
 def create_mood_entry(request):
     form = MoodEntryForm(request.POST or None)
