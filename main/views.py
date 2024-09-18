@@ -1,9 +1,13 @@
+import datetime
+
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
+from django.urls import reverse
 
 from main.forms import MoodEntryForm
 from main.models import MoodEntry
@@ -49,6 +53,7 @@ def create_mood_entry(request):
     return render(request, "create_mood_entry.html", context)
 
 
+@login_required(login_url="/login")
 def show_main(request):
     mood_entries = MoodEntry.objects.all()
     context = {
@@ -56,6 +61,7 @@ def show_main(request):
         "name": "Yudayana Arif Prasojo",
         "class": "PBP D",
         "mood_entries": mood_entries,
+        "last_login": request.COOKIES["last_login"],
     }
 
     return render(request, "main.html", context)
@@ -81,10 +87,18 @@ def login_user(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect("main:show_main")
+            response = HttpResponseRedirect(reverse("main:show_main"))
+            response.set_cookie("last_login", str(datetime.datetime.now()))
+            return response
 
     else:
         form = AuthenticationForm(request)
     context = {"form": form}
     return render(request, "login.html", context)
 
+
+def logout_user(request):
+    logout(request)
+    response = HttpResponseRedirect(reverse("main:login"))
+    response.delete_cookie("last_login")
+    return response
