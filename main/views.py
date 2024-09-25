@@ -9,7 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
 
-from main.forms import MoodEntryForm
+from main.forms import MoodEntryForm, RegisterForm
 from main.models import MoodEntry
 
 
@@ -70,7 +70,7 @@ def show_main(request):
 
 
 def register(request):
-    form = UserCreationForm()
+    form = RegisterForm()
 
     if request.method == "POST":
         form = UserCreationForm(request.POST)
