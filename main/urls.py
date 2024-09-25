@@ -2,6 +2,7 @@ from django.urls import path
 
 from main.views import (
     create_mood_entry,
+    delete_mood,
     edit_mood,
     login_user,
     logout_user,
@@ -26,4 +27,7 @@ urlpatterns = [
     path("login/", login_user, name="login"),
     path("logout/", logout_user, name="logout"),
     path("edit-mood/<uuid:id>", edit_mood, name="edit_mood"),
+    path(
+        "delete/<uuid:id>", delete_mood, name="delete_mood"
+    ),  # sesuaikan dengan nama fungsi yang dibuat
 ]
